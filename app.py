@@ -1,7 +1,7 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 import joblib
 
-app = Flask(__name__)
+app = Flask(__name__,template_folder="templates")
 
 # Load trained model
 model = joblib.load("model.pkl")
@@ -9,7 +9,7 @@ model = joblib.load("model.pkl")
 # Home route (for browser testing)
 @app.route("/")
 def home():
-    return "MLOps API is running 🚀"
+    return render_template("index.html")
 
 # Prediction route
 @app.route("/predict", methods=["POST"])
