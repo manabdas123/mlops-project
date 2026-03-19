@@ -4,9 +4,17 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
+import os
 
-# Load data
-df = pd.read_csv("data/Titanic-Dataset.csv")
+
+# Get current file directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Go one level up → then data folder
+data_path = os.path.join(BASE_DIR, "..", "data", "Titanic-Dataset.csv")
+
+# Load dataset
+df = pd.read_csv(data_path)
 
 # Preprocessing
 df = df[['Pclass','Sex','Age','Fare','Survived']]
@@ -34,6 +42,7 @@ import joblib
 joblib.dump(model, "model.pkl")
 
 # MLflow tracking
+mlflow.set_tracking_uri("file:./mlruns")
 mlflow.set_experiment("Titanic")
 
 with mlflow.start_run():
